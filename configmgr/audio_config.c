@@ -16,7 +16,7 @@
 
 #define LOG_TAG "tiny_hal_config"
 /*#define LOG_NDEBUG 0*/
-/*#undef NDEBUG*/
+//#undef NDEBUG
 
 #include <stddef.h>
 #include <errno.h>
@@ -36,6 +36,7 @@ typedef struct effect_interface_s **effect_handle_t;
 #include <hardware/audio.h>
 
 #include <tinyalsa/asoundlib.h>
+
 #include <expat.h>
 
 #include <tinyhal/audio_config.h>
@@ -334,7 +335,7 @@ static int ctl_open(struct config_mgr *cm, struct ctl *pctl)
         /* Update tinyalsa with any new controls that have been added
          * and try again
          */
-        mixer_add_new_ctls(cm->mixer);
+//        mixer_update_ctls(cm->mixer);
         ctl = mixer_get_ctl_by_name(cm->mixer, pctl->name);
     }
 
