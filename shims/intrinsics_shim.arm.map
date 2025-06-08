@@ -1,9 +1,6 @@
-LIBC_DEPRECATED {
+LIBC_PRIVATE {
   global:
     s_aeabi_d2lz; # arm
     s_aeabi_d2ulz; # arm
-    s_aeabi_l2d; # arm
-    s_aeabi_ul2d; # arm
-    s_aeabi_unwind_cpp_pr0; # arm
-    s_aeabi_unwind_cpp_pr1; # arm
+    s_aeabi_uldivmod; # arm
 };

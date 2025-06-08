@@ -7,26 +7,26 @@
 #is strictly prohibited.
 
 import /vendor/etc/init/hw/init.comms.rc
-import /vendor/etc/init/init.nvgpu_shims.rc
 
 on early-init
     mount debugfs debugfs /sys/kernel/debug mode=0755
-    
-# make trace_marker everyone writable
-    chmod 222 /sys/kernel/debug/tracing/trace_marker
 
 on init
     mkdir /mnt/media_rw/sdcard1 0700 media_rw media_rw
+    mkdir /storage/sdcard1 0700 root sdcard_r
     
+    # Mount and bind audio_policy_configuration.xml in /vendor
+    mount none /system/etc/audio_policy_configuration.xml /vendor/etc/audio/audio_policy_configuration.xml bind
+
     # Support legacy paths
     symlink /sdcard /mnt/sdcard
-    symlink /sdcard /storage/sdcard0
+    #symlink /sdcard /storage/sdcard0
 
     # create directory for mounting usb drives
-    mkdir /mnt/media_rw/usbdrive 0700 media_rw media_rw
-    mkdir /storage/usbdrive 0700 root root
-    symlink /mnt/media_rw/usbdrive /storage/usbdrive
-    symlink /mnt/media_rw/usbdrive /usbdrive
+    # mkdir /mnt/media_rw/usbdrive 0700 media_rw media_rw
+    # mkdir /storage/usbdrive 0700 root root
+    # symlink /mnt/media_rw/usbdrive /storage/usbdrive
+    # symlink /mnt/media_rw/usbdrive /usbdrive
 
     # create directory for mounting calibration partition
     mkdir /mnt/vendor/factory 0666 system system
@@ -35,15 +35,9 @@ on init
     # create directory for mounting user calibration partition
     mkdir /mnt/usercalib 0771 system system
 
-    start watchdogd
-
 on fs
-# mount console ramooops
+ # mount console ramooops
    mount pstore pstore /sys/fs/pstore
-
-on post-fs
-    mount none /system/etc/audio_policy_configuration.xml /vendor/etc/audio/audio_policy_configuration.xml bind
-    mount none /system/etc/audio_policy_configuration.xml /vendor/etc/audio_policy_configuration.xml bind
 
 on post-fs-data
     # We chown/chmod /mnt/usercalib again so because mount is run as root + defaults
@@ -65,7 +59,7 @@ on post-fs-data
     
     mkdir /data/vendor/mediadrm 0770 mediadrm mediadrm
 
-    mkdir /data/nvcam 0700 media camera
+    mkdir /data/vendor/nvcam 0700 media camera
 
     chown dhcp dhcp /data/vendor/dhcp
 
@@ -222,7 +216,7 @@ on property:ro.debuggable=1
     chmod 0666 /sys/class/invensense/mpu/dbg_dat
 
 # bugreport is triggered by the VOLUME-DOWN and VOLUME-UP keys
-service bugreport /system/bin/dumpstate -d -p -B -z -o /data/user_de/0/com.android.shell/files/bugreports/bugreport
+service bugreport /system/bin/dumpstate -d -p -B -o /data/data/com.android.shell/files/bugreports/bugreport
     class main
     disabled
     oneshot
@@ -231,12 +225,7 @@ service bugreport /system/bin/dumpstate -d -p -B -z -o /data/user_de/0/com.andro
 # unified scaling setup
 import /vendor/etc/init/hw/init.ussrd.rc
 
-# Thie yields each tegra wdt expiration to be at 30 secs and fourth expiration for reboot at 120 secs.
-service watchdogd /system/bin/watchdogd 10 110
-    class core
-    seclabel u:r:watchdogd:s0
-
-#Logcat in cache folder while is in bootanimation
+# Logcat in cache folder while is in bootanimation
 service logger /system/bin/logcat -b all -D -f /cache/boot_log.txt
     class main
     user root

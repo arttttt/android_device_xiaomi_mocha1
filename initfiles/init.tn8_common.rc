@@ -22,23 +22,62 @@ on fs
     setprop ro.crypto.umount_sd false
     setprop ro.crypto.fuse_sdcard true
     setprop audio.custompolicy 1
-    mount_all /fstab.tn8
-    swapon_all /fstab.tn8
 
+on post-fs-data
+    # Set SELinux security contexts for NvCPL keylayout files.
+    mkdir /data/system/devices 0774 system system
+    mkdir /data/system/devices/keylayout 0774 system system
+    restorecon_recursive /data/system/devices/keylayout
+
+    
 on boot
     #max resolution supported for Miracast is 1080p, represented interms of macroblocks
     setprop nvwfd.maxresolution_macroblocks 8160
     #enable Miracast game mode support
     setprop nvwfd.gamemode 1
 
+    # add a cpuset for the camera daemon
+    # we want all the little cores for camera
+    mkdir /dev/cpuset/camera-daemon
+    write /dev/cpuset/camera-daemon/cpus 0
+    write /dev/cpuset/camera-daemon/mems 0
+    chown system system /dev/cpuset/camera-daemon
+    chown system system /dev/cpuset/camera-daemon/tasks
+    chmod 0664 /dev/cpuset/camera-daemon/tasks
+
 on init
+     setprop ro.feature.stylus 1
+    setprop persist.tegra.cursor.enable 1
+    setprop sf.async.cursor.enable 1
+    setprop input.tch_blk.enabled 1
+    setprop input.tch_blk.ext_for_ptrs 1
+    setprop input.tch_blk.timeout_ms 500
+    setprop input.tch_prs.ebc 0.9
+    setprop input.tch_blk.edgeremap_left 10
+    setprop input.tch_blk.edgeremap_top 5
+    setprop input.tch_blk.edgeremap_right 15
+    setprop input.tch_blk.edgeremap_bottom 5
+    setprop input.ptr_trk.toolswitch_time 400
+    setprop input.ptr_trk.toolswitch_range 200
+    setprop input.ptr_trk.eraserlatch_range 10
+    setprop input.ptr_trk.eraserdelay_time 250
+    setprop input.ptr_trk.pinchtozoom_time 1000
+    setprop input.ptr_trk.pinchtozoom_range 1100
+    setprop input.ptr_trk.pinchtozoom_rectX 800
+    setprop input.ptr_trk.pinchtozoom_rectY 1400
+    setprop input.ptr_trk.pinchtozoom_cenX 600
+    setprop input.ptr_trk.pinchtozoom_cenY 960
+    setprop input.nonwhitelistedmode 3
     setprop keyguard.no_require_sim true
     setprop persist.tegra.didim.enable 0
+    write /d/tegra_actmon/cpu_emc/avg_act_threshold 50000
 
-service charger /charger
-    group graphics input
-    seclabel u:r:healthd:s0
+service charger /system/bin/charger
     class charger
+    user root
+    group log root radio system graphics input
+    capabilities SYS_BOOT
+    seclabel u:r:charger:s0
 
 on charger
     setprop sys.usb.config mtp

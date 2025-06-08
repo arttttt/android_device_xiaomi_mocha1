@@ -1,23 +1,56 @@
-<manifest version="1.0" type="device">
+<manifest version="1.0" type="device" target-level="legacy">
     <hal format="hidl">
         <name>android.hardware.audio</name>
         <transport arch="32">passthrough</transport>
-        <version>2.0</version>
+        <version>4.0</version>
         <interface>
             <name>IDevicesFactory</name>
             <instance>default</instance>
         </interface>
+        <fqname>@5.0::IDevicesFactory/default</fqname>
+        <fqname>@4.0::IDevicesFactory/default</fqname>
+        <fqname>@2.0::IDevicesFactory/default</fqname>
     </hal>
     <hal format="hidl">
         <name>android.hardware.audio.effect</name>
         <transport arch="32">passthrough</transport>
-        <version>2.0</version>
+        <version>4.0</version>
         <interface>
             <name>IEffectsFactory</name>
             <instance>default</instance>
         </interface>
+        <fqname>@5.0::IEffectsFactory/default</fqname>
+        <fqname>@4.0::IEffectsFactory/default</fqname>
+        <fqname>@2.0::IEffectsFactory/default</fqname>
     </hal>
     <hal format="hidl">
+        <name>android.hardware.bluetooth</name>
+        <transport arch="32">passthrough</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IBluetoothHci</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+    <hal format="hidl">
+        <name>android.hardware.broadcastradio</name>
+        <transport>hwbinder</transport>
+        <version>2.0</version>
+        <interface>
+            <name>IBroadcastRadioFactory</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+    <hal format="hidl">
+        <name>android.hardware.camera.provider</name>
+        <transport arch="32">passthrough</transport>
+        <version>2.4</version>
+        <interface>
+            <name>ICameraProvider</name>
+            <instance>legacy/0</instance>
+        </interface>
+    </hal>
+     <hal format="hidl">
         <name>android.hardware.configstore</name>
         <transport>hwbinder</transport>
         <version>1.1</version>
@@ -28,7 +61,7 @@
     </hal>
     <hal format="hidl">
         <name>android.hardware.drm</name>
-        <transport arch="32">passthrough</transport>
+        <transport>hwbinder</transport>
         <version>1.0</version>
         <interface>
             <name>ICryptoFactory</name>
@@ -50,7 +83,7 @@
     </hal>
     <hal format="hidl">
         <name>android.hardware.graphics.allocator</name>
-        <transport>hwbinder</transport>
+        <transport arch="32">passthrough</transport>
         <version>2.0</version>
         <interface>
             <name>IAllocator</name>
@@ -81,6 +114,15 @@
         <version>3.0</version>
         <interface>
             <name>IKeymasterDevice</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+    <hal format="hidl">
+        <name>android.hardware.light</name>
+        <transport>hwbinder</transport>
+        <version>2.0</version>
+        <interface>
+            <name>ILight</name>
             <instance>default</instance>
         </interface>
     </hal>
@@ -126,7 +168,7 @@
     </hal>
     <hal format="hidl">
         <name>android.hardware.sensors</name>
-        <transport>hwbinder</transport>
+        <transport arch="32">passthrough</transport>
         <version>1.0</version>
         <interface>
             <name>ISensors</name>
@@ -163,7 +205,7 @@
     <hal format="hidl">
         <name>android.hardware.wifi.hostapd</name>
         <transport>hwbinder</transport>
-        <version>1.0</version>
+        <version>1.1</version>
         <interface>
             <name>IHostapd</name>
             <instance>default</instance>
@@ -172,7 +214,7 @@
     <hal format="hidl">
         <name>android.hardware.wifi.supplicant</name>
         <transport>hwbinder</transport>
-        <version>1.1</version>
+        <version>1.2</version>
         <interface>
             <name>ISupplicant</name>
             <instance>default</instance>
@@ -194,6 +236,15 @@
         <interface>
             <name>IUsbRestrict</name>
             <instance>default</instance>
+        </interface>
+    </hal>
+    <hal format="hidl">
+        <name>vendor.nvidia.hardware.phs</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>INVPHS</name>
+            <instance>nvphsd</instance>
         </interface>
     </hal>
 </manifest>

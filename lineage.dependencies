@@ -1,34 +1,10 @@
 [
  {
-   "repository": "android_vendor_nvidia-artttt",
-   "target_path": "vendor/nvidia"
- },
- {
-   "repository": "android_kernel_xiaomi_mocha-artttt",
-   "target_path": "vendor/xiaomi/mocha"
- },
- {
    "repository": "android_hardware_nvidia_thermal",
    "target_path": "hardware/nvidia/thermal"
  },
  {
-   "repository": "android_hardware_nvidia_interfaces",
-   "target_path": "hardware/nvidia/interfaces"
- },
- {
-   "repository": "android_hardware_nvidia_livedisplay",
-   "target_path": "hardware/nvidia/livedisplay"
- },
- {
-   "repository": "android_hardware_nvidia_memtrack",
-   "target_path": "hardware/nvidia/memtrack"
- },
- {
    "repository": "android_hardware_nvidia_libstagefrighthw",
    "target_path": "hardware/nvidia/libstagefrighthw"
- },
- {
-   "repository": "android_hardware_sony_timekeep",
-   "target_path": "hardware/sony/timekeep"
- },
+ }
 ]

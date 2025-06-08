@@ -1,7 +1,10 @@
-import power.mocha.rc
-
 on boot
+
+    exec_start init-btloader-sh
+
 # Power management settings
+    write /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/no_lp 0
+
     # Enable power gating of fast CPU's
     write /sys/module/cpuidle_t11x/parameters/cpu_power_gating_in_idle 31
     write /sys/module/cpuidle_t11x/parameters/slow_cluster_power_gating_noncpu 1
@@ -54,6 +57,11 @@ on boot
     chown system system /sys/kernel/tegra_cpu_emc/table_src
     write /sys/kernel/tegra_cpu_emc/table_src 1
 
+  on init
+    # Mount a tmpfs into /mnt/tmp for hosting nvram, phs shared memory
+    mkdir /mnt/tmp 0770 system system
+    mount tmpfs tmpfs /mnt/tmp mode=0775,gid=1003
+
 on late-fs
     write /sys/block/mmcblk0/queue/iostats 0
     write /sys/block/mmcblk0/queue/nr_requests 256
@@ -62,29 +70,45 @@ on late-fs
     write /sys/block/mmcblk1/queue/scheduler row
 
 on property:sys.boot_completed=1
+    setprop sys.io.scheduler bfq 
     write /sys/block/mmcblk0/queue/iostats 1
     write /sys/block/mmcblk0/queue/nr_requests 128
     write /sys/block/mmcblk0/queue/rq_affinity 0
     write /sys/block/mmcblk0/queue/read_ahead_kb 128
     write /sys/block/mmcblk1/queue/read_ahead_kb 128
     write /sys/block/mmcblk1/queue/rq_affinity 0
+    
+    
+
+  # override cpuset cpus to 0-3, mems to 0
+    write /dev/cpuset/foreground/cpus 0-3
+    write /dev/cpuset/foreground/mems 0
+    write /dev/cpuset/foreground/boost/cpus 0-3
+    write /dev/cpuset/foreground/boost/mems 0
+    write /dev/cpuset/background/cpus 0-3
+    write /dev/cpuset/background/mems 0
+    write /dev/cpuset/system-background/cpus 0-3
+    write /dev/cpuset/system-background/mems 0
+    write /dev/cpuset/top-app/cpus 0-3
+    write /dev/cpuset/top-app/mems 0
 
 on init
     # Mount a tmpfs into /mnt/tmp for hosting nvram, phs shared memory
     mkdir /mnt/tmp 0770 system system
     mount tmpfs tmpfs /mnt/tmp mode=0775,gid=1003
 
+
 # Loads real wifi and bt mac from /dev/block/mmcblk0p15
-service conn_wifi /system/vendor/bin/conn_init -op
+    service conn_wifi /system/vendor/bin/conn_init -op
     class main
     user root
     group root
     seclabel u:r:conn_wifi:s0
     oneshot
 
-service mac_generator /system/vendor/bin/macaddr.sh -op
+ service init-btloader-sh /system/bin/init.btloader.sh 
     class main
     user root
-    group root
-    seclabel u:r:mac_generator:s0
+    group root system
+    disabled
     oneshot

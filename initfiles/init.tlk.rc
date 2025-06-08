@@ -16,12 +16,7 @@
 # Starts as user=root but drops to user=system internally
 # after necessary capabilities are established.
 #
-service tlk_daemon /vendor/bin/tlk_daemon --storagedir /data/vendor
-    class main
-    group keystore
-    disabled
-
-service tlk_daemon_non_treble /vendor/bin/tlk_daemon --storagedir /data
+service tlk_daemon /vendor/bin/tlk_daemon --storagedir /data
     class main
     group keystore
     disabled
@@ -41,27 +36,14 @@ service storageproxyd_hv /vendor/bin/storageproxyd -d /dev/trusty-ipc-dev0 -p /d
 #
 # One shot command that queries status of secure storage.
 #
-service ss_status /vendor/bin/run_ss_status.sh /data/vendor/ss/slog
+
+service ss_status /vendor/bin/run_ss_status.sh /data/ss/slog
     class main
     user system
     group keystore
     oneshot
     disabled
 
-service ss_status_non_treble /vendor/bin/run_ss_status.sh /data/ss/slog
-    class main
-    user system
-    group keystore
-    oneshot
-    disabled
-#
-# eks2_client
-#
-# one shot client that installs keys from eks2 in nvcrypto key slots
-#
-service eks2_client /vendor/bin/eks2_client --eks2_path /vendor/app/eks2/eks2.dat
-    class main
-    oneshot
 
 # Post treble, all vendor data should reside in /data/vendor
 on post-fs-data
@@ -78,3 +60,5 @@ on property:ro.boot.secureos=trusty
 
 on property:ro.boot.secureos=trusty_hv
     start storageproxyd_hv
+
+

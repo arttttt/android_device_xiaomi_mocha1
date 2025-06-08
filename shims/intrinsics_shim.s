@@ -1,4 +1,4 @@
-.extern __aeabi_ldivmod,__aeabi_uldivmod,__aeabi_d2lz,__aeabi_d2ulz,__aeabi_l2d,__aeabi_ul2d,__aeabi_unwind_cpp_pr0,__aeabi_unwind_cpp_pr1
+.extern __aeabi_ldivmod,__aeabi_uldivmod,__aeabi_d2lz,__aeabi_d2ulz,__aeabi_l2d,__aeabi_ul2d,__aeabi_f2lz,__aeabi_f2ulz,__aeabi_l2f,__aeabi_ul2f
 .text
 .thumb
 
@@ -38,14 +38,26 @@ s_aeabi_l2d:
 s_aeabi_ul2d:
     b __aeabi_ul2d
 
-.global s_aeabi_unwind_cpp_pr0
-.type s_aeabi_unwind_cpp_pr0,%function
+.global s_aeabi_f2lz
+.type s_aeabi_f2lz,%function
 .thumb_func
-s_aeabi_unwind_cpp_pr0:
-    b __aeabi_unwind_cpp_pr0
+s_aeabi_f2lz:
+    b __aeabi_f2lz
 
-.global s_aeabi_unwind_cpp_pr1
-.type s_aeabi_unwind_cpp_pr1,%function
+.global s_aeabi_f2ulz
+.type s_aeabi_f2ulz,%function
 .thumb_func
-s_aeabi_unwind_cpp_pr1:
-    b __aeabi_unwind_cpp_pr1
+s_aeabi_f2ulz:
+    b __aeabi_f2ulz
+
+.global s_aeabi_l2f
+.type s_aeabi_l2f,%function
+.thumb_func
+s_aeabi_l2f:
+    b __aeabi_l2f
+
+.global s_aeabi_ul2f
+.type s_aeabi_ul2f,%function
+.thumb_func
+s_aeabi_ul2f:
+    b __aeabi_ul2f

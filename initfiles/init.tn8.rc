@@ -14,7 +14,17 @@ import /vendor/etc/init/hw/init.tn8.usb.rc
 
 on post-fs-data
     chmod 0644 /sys/kernel/cluster/active
+    write /sys/class/gpio/export 61
+    write /sys/class/gpio/gpio61/direction out
+    write /sys/class/gpio/gpio61/value 0
+    chown root system /sys/class/gpio/gpio61/value
+    chmod 0664 /sys/class/gpio/gpio61/value
+    chmod 0644 /sys/kernel/cluster/active
     mkdir /data/sensors 0777 system system
+    chown system system /sys/devices/platform/host1x/tegradc.0/color_filter
+    chown system system /sys/devices/platform/host1x/tegradc.0/color_filter_rgb
+    chmod 0644 /sys/devices/platform/host1x/tegradc.0/color_filter
+    chmod 0644 /sys/devices/platform/host1x/tegradc.0/color_filter_rgb
 
 on init
     # Mount a tmpfs into /mnt/tmp for hosting nvram, phs shared memory
@@ -56,13 +66,6 @@ service vendor.init_renderer /vendor/bin/init.renderer.sh
 on boot
     #change vm memory parameter
     write /proc/sys/vm/lowmem_reserve_ratio "128 128"
-
-service media /system/bin/mediaserver
-    class main
-    user media
-    group audio camera inet bluetooth drmrpc mediadrm wakelock
-    ioprio rt 4
-    writepid /dev/cpuset/foreground/tasks /dev/stune/foreground/tasks
 
 on post-fs
     write /sys/block/mmcblk0/queue/iostats 0

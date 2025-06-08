@@ -2,7 +2,7 @@ on boot
     write /sys/class/android_usb/android0/iSerial ${ro.serialno}
     write /sys/class/android_usb/android0/iManufacturer ${ro.product.manufacturer}
     write /sys/class/android_usb/android0/iProduct ${ro.product.model}
-    
+
     write /sys/class/android_usb/android0/f_rndis/manufacturer ${ro.product.manufacturer}
     write /sys/class/android_usb/android0/f_rndis/vendorID 0955
     write /sys/class/android_usb/android0/f_rndis/wceis 1
@@ -12,7 +12,9 @@ on fs
     mkdir /dev/usb-ffs/adb 0770 shell shell
     mount functionfs adb /dev/usb-ffs/adb uid=2000,gid=2000
     write /sys/class/android_usb/android0/f_ffs/aliases adb
+    
     setprop sys.usb.ffs.aio_compat 1
+
 
 on property:sys.usb.config=mtp
     write /sys/class/android_usb/android0/enable 0
