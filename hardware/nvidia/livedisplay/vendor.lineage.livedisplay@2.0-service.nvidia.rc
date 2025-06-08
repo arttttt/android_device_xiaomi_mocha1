@@ -1,0 +1,4 @@
+service vendor.livedisplay-hal-2-0-nvidia /vendor/bin/hw/vendor.lineage.livedisplay@2.0-service.nvidia
+    class hal
+    user system
+    group system

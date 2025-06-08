@@ -12,6 +12,7 @@ on early-init
     mount debugfs debugfs /sys/kernel/debug mode=0755
 
 on init
+    mkdir /dev/camera 0755 media camera
     mkdir /mnt/media_rw/sdcard1 0700 media_rw media_rw
     mkdir /storage/sdcard1 0700 root sdcard_r
     
@@ -35,9 +36,12 @@ on init
     # create directory for mounting user calibration partition
     mkdir /mnt/usercalib 0771 system system
 
+    # radio.noril true  
+    setprop ro.radio.noril true
+
 on fs
- # mount console ramooops
-   mount pstore pstore /sys/fs/pstore
+    # mount console ramooops
+    mount pstore pstore /sys/fs/pstore
 
 on post-fs-data
     # We chown/chmod /mnt/usercalib again so because mount is run as root + defaults
@@ -59,7 +63,11 @@ on post-fs-data
     
     mkdir /data/vendor/mediadrm 0770 mediadrm mediadrm
 
-    mkdir /data/vendor/nvcam 0700 media camera
+    # create directory for camera calibration data
+    mkdir /mnt/factory/camera 0666 system system
+
+    # create directory for camera cached data
+    mkdir /data/nvcam 0700 media camera
 
     chown dhcp dhcp /data/vendor/dhcp
 
@@ -69,35 +77,39 @@ on post-fs-data
     # create directory for mediaserver EGL blob cache
     mkdir /data/vendor/mediaserver 0770 media media
 
+    # [新增] 修复近期任务目录权限（解决TaskPersister错误）
+    #mkdir -p /data/system_ce/0/recent
+    #chown system:system /data/system_ce/0/recent
+
+    # backlight
+    chown system system /sys/class/backlight/lcd-backlight/brightness
+
 # Set up HDCP
 import /vendor/etc/init/hw/init.hdcp.rc
 
 on boot
-
-# backlight
-    chown system system /sys/class/backlight/lcd-backlight/brightness
-    
-# charger
+  
+    # charger
     chown system system /sys/devices/platform/7000c400.i2c/i2c-1/1-006b/disabled_by_user
 
-#dt2w
+    # dt2w
     chown system system /sys/devices/platform/7000c700.i2c/i2c-3/3-004a/wakeup_mode
     chown system system /sys/devices/platform/7000c700.i2c/i2c-3/3-0020/input/input0/wake_gesture
     chown system system /sys/devices/platform/7000c700.i2c/i2c-3/3-0020/input/input3/wake_gesture
 
-## cmhw permissions
-# key disabler
+    ## cmhw permissions
+    # key disabler
     chown system system /sys/devices/platform/7000c700.i2c/i2c-3/3-004a/enable_keys
     chown system system /sys/devices/platform/7000c700.i2c/i2c-3/3-0020/input/input0/0dbutton
     chown system system /sys/devices/platform/7000c700.i2c/i2c-3/3-0020/input/input3/0dbutton
 
-# vibrator intensity
+    # vibrator intensity
     chown system system /sys/vibrator/pwmvalue
 
-# CMU
+    # CMU
     chown system system /sys/devices/platform/host1x/tegradc.0/cmu_enable
 
-# power
+    # power
     chown system system /sys/kernel/tegra_cap/core_cap_level
     chown system system /sys/kernel/tegra_cap/core_cap_state
     chown system system /sys/kernel/tegra_volt_cap/cpu_volt
@@ -105,7 +117,7 @@ on boot
     chown system system /sys/module/cpu_tegra/parameters/cpu_user_cap
     chown system system /sys/devices/platform/host1x/gk20a.0/enable_3d_scaling
 
-# audio
+    # audio
     chmod 0664 /sys/power/suspend/mode
     chown system audio /sys/power/suspend/mode
 

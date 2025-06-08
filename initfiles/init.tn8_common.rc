@@ -29,7 +29,6 @@ on post-fs-data
     mkdir /data/system/devices/keylayout 0774 system system
     restorecon_recursive /data/system/devices/keylayout
 
-    
 on boot
     #max resolution supported for Miracast is 1080p, represented interms of macroblocks
     setprop nvwfd.maxresolution_macroblocks 8160
@@ -46,7 +45,7 @@ on boot
     chmod 0664 /dev/cpuset/camera-daemon/tasks
 
 on init
-     setprop ro.feature.stylus 1
+    setprop ro.feature.stylus 1
     setprop persist.tegra.cursor.enable 1
     setprop sf.async.cursor.enable 1
     setprop input.tch_blk.enabled 1

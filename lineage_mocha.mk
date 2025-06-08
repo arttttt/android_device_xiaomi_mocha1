@@ -11,5 +11,9 @@ PRODUCT_BRAND := Xiaomi
 PRODUCT_MANUFACTURER := Xiaomi
 BOARD_VENDOR := Xiaomi
 
-# GMS Client ID
-PRODUCT_GMS_CLIENTID_BASE := android-xiaomi
+PRODUCT_GMS_CLIENTID_BASE := android-nvidia
+
+
+
+  
+

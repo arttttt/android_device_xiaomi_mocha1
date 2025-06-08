@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-# Sets Android Go default values for properties specific for mocha(A11)
+# Sets Android Go default values for properties specific for mocha
 
 # Low RAM configuration
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -23,27 +23,25 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # LMK settings (less aggressive for 2GB RAM)
 PRODUCT_PROPERTY_OVERRIDES += \
-   ro.lmk.critical_upgrade=true \
-   ro.lmk.upgrade_pressure=55 \
-   ro.lmk.downgrade_pressure=75 \
-   ro.lmk.medium=850  \
-   ro.lmk.kill_heaviest_task=false \
-   ro.lmk.psi_complete_stall_ms=150 \
-   ro.statsd.enable=true
+    ro.lmk.critical_upgrade=true \
+    ro.lmk.upgrade_pressure=50 \
+    ro.lmk.downgrade_pressure=70 \
+    ro.lmk.medium=800 \
+    ro.lmk.kill_heaviest_task=false \
+    ro.statsd.enable=true
 
 # Heap sizes (adjusted for 2GB RAM)
 PRODUCT_PROPERTY_OVERRIDES += \
-   dalvik.vm.heapgrowthlimit=192m \
-   dalvik.vm.heapsize=512m \
-   dalvik.vm.madvise-random=true \
-   dalvik.vm.dex2oat-threads=2
+    dalvik.vm.heapgrowthlimit=192m \
+    dalvik.vm.heapsize=384m \
+    dalvik.vm.madvise-random=true
 
 # Compiler and optimization settings
 PRODUCT_SYSTEM_SERVER_COMPILER_FILTER := speed-profile
 PRODUCT_ALWAYS_PREOPT_EXTRACTED_APK := true
 PRODUCT_PROPERTY_OVERRIDES += \
     pm.dexopt.shared=quicken \
-    pm.dexopt.downgrade_after_inactive_days=7
+    pm.dexopt.downgrade_after_inactive_days=10
 
 # Boot image profile
 PRODUCT_USE_PROFILE_FOR_BOOT_IMAGE := true
@@ -55,9 +53,6 @@ PRODUCT_PACKAGES += InProcessNetworkStack
 # Minimize debug info
 PRODUCT_MINIMIZE_JAVA_DEBUG_INFO := true
 PRODUCT_ART_TARGET_INCLUDE_DEBUG_BUILD := false
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.storage_manager.enabled=true
 
 # madvise random in ART to reduce page cache thrashing.
 PRODUCT_PROPERTY_OVERRIDES += \

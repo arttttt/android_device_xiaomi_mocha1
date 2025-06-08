@@ -27,7 +27,6 @@ PRODUCT_PACKAGES += $(PRODUCT_PACKAGES_SHIPPING_API_LEVEL_29)
 PRODUCT_PACKAGES += \
     android.hardware.audio@2.0 \
     android.hardware.audio@2.0-impl \
-    android.hardware.soundtrigger@2.0-impl \
     android.hardware.audio.effect@2.0-impl \
     audio.a2dp.default \
     audio.usb.default \
@@ -76,15 +75,15 @@ PRODUCT_PACKAGES += \
     android.hardware.bluetooth@1.0-service
 
 # Camera
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/camera/nvcamera.conf:system/etc/nvcamera.conf \
-    $(LOCAL_PATH)/camera/model_frontal.xml:system/vendor/etc/model_frontal.xml
+#PRODUCT_COPY_FILES += \
+#    $(LOCAL_PATH)/camera/nvcamera.conf:system/etc/nvcamera.conf \
+#    $(LOCAL_PATH)/camera/model_frontal.xml:system/vendor/etc/model_frontal.xml
 
-PRODUCT_PACKAGES += \
-    android.hardware.camera.provider@2.4-impl \
-    android.hardware.camera.provider@2.4-service \
-    camera.device@3.2-impl \
-    camera.tegra
+#PRODUCT_PACKAGES += \
+#    android.hardware.camera.provider@2.4-impl \
+#    android.hardware.camera.provider@2.4-service \
+#    camera.device@3.2-impl \
+#    camera.tegra
 
 # Comm Permissions
 PRODUCT_COPY_FILES += \
@@ -99,9 +98,9 @@ PRODUCT_PACKAGES += \
     android.hardware.configstore@1.1-service
 
 # DRM HAL
-#PRODUCT_PACKAGES += \
-#    android.hardware.drm@1.0-impl \
-#    android.hardware.drm@1.0-service 
+PRODUCT_PACKAGES += \
+    android.hardware.drm@1.0-impl \
+    android.hardware.drm@1.0-service 
 
 # fastbootd
 PRODUCT_PACKAGES += \
@@ -112,12 +111,12 @@ PRODUCT_PACKAGES += \
     setup_fs
 
 # FM
-PRODUCT_PACKAGES += \
-    android.hardware.broadcastradio@2.0-service \
-    FMRadio \
-    brcm-uim-sysfs \
-    libfmjni \
-    libfmradio.v4l2-fm
+#PRODUCT_PACKAGES += \
+#    android.hardware.broadcastradio@2.0-service \
+#    FMRadio \
+#    brcm-uim-sysfs \
+#    libfmjni \
+#    libfmradio.v4l2-fm
 
 # Graphics
 PRODUCT_AAPT_CONFIG += xlarge large
@@ -148,6 +147,10 @@ PRODUCT_PACKAGES += \
 # GO
 $(call inherit-product, device/xiaomi/mocha/go_mocha.mk)
 
+# Health HAL
+PRODUCT_PACKAGES += \
+    android.hardware.health@2.0-service.tegra
+
 # HIDL
 PRODUCT_PACKAGES += \
     android.hidl.base@1.0 \
@@ -160,14 +163,9 @@ PRODUCT_PACKAGES += \
     libhidltransport \
     libhwbinder
 
-# Gatekeeper
-PRODUCT_PACKAGES += \
-    android.hardware.gatekeeper@1.0-service.software
-
-# Health HAL
-PRODUCT_PACKAGES += \
-    android.hardware.health@2.0-impl \
-    android.hardware.health@2.0-service
+# HIDL Manifest
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/manifest.xml:system/vendor/manifest.xml
 
 # Key layouts
 PRODUCT_COPY_FILES += \
@@ -185,7 +183,7 @@ PRODUCT_PACKAGES += \
     android.hardware.light@2.0-service.mocha
 
 # LiveDisplay
-   PRODUCT_PACKAGES += vendor.lineage.livedisplay@2.0-service-nvidia
+PRODUCT_PACKAGES += vendor.lineage.livedisplay@2.0-service.nvidia
 
 # Media config
 PRODUCT_PACKAGES += \
@@ -250,19 +248,22 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.sensor.proximity.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.proximity.xml \
     frameworks/native/data/etc/android.hardware.touchscreen.multitouch.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.touchscreen.multitouch.xml \
     frameworks/native/data/etc/android.hardware.touchscreen.multitouch.distinct.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.touchscreen.multitouch.distinct.xml \
-    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
+    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
     frameworks/native/data/etc/android.hardware.usb.accessory.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.usb.accessory.xml \
     frameworks/native/data/etc/android.hardware.usb.host.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.usb.host.xml \
     frameworks/native/data/etc/android.hardware.wifi.direct.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.direct.xml \
     frameworks/native/data/etc/android.hardware.wifi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.xml \
-    frameworks/native/data/etc/handheld_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/handheld_core_hardware.xml \
-    frameworks/native/data/etc/tablet_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/tablet_core_hardware.xml \
+    frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
+    frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
     frameworks/native/data/etc/android.hardware.sensor.stepcounter.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepcounter.xml \
     frameworks/native/data/etc/android.hardware.sensor.stepdetector.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepdetector.xml \
     frameworks/native/data/etc/android.software.freeform_window_management.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.freeform_window_management.xml\
     frameworks/native/data/etc/android.hardware.sensor.stepcounter.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepcounter.xml \
-    frameworks/native/data/etc/android.hardware.sensor.stepdetector.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepdetector.xml
+    frameworks/native/data/etc/android.hardware.sensor.stepdetector.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepdetector.xml \
+    $(LOCAL_PATH)/permissions/privapp-permissions-google.xml:system/etc/permissions/privapp-permissions-google.xml \
+    $(LOCAL_PATH)/permissions/GoogleExtServices_permissions.xml:system/etc/permissions/GoogleExtServices_permissions.xml
 
+# Product
 PRODUCT_CHARACTERISTICS := tablet
 
 # Power
@@ -289,7 +290,7 @@ PRODUCT_PACKAGES += \
     ussrd.conf \
     init.nvgpu_shims.rc \
     ussr_setup \
-  
+
 # Permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.usb.accessory.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.usb.accessory.xml \
@@ -329,23 +330,26 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.usb@1.0-service.basic
 
+# Use legacy ADB USB support
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.adb.nonblocking_ffs=false
+
 # Vibrator
 PRODUCT_PACKAGES += \
     android.hardware.vibrator@1.0-service.mocha
 
 # Vendor seccomp policy files for media components:
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/seccomp/mediacodec.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediacodec.policy \
-    $(LOCAL_PATH)/seccomp/mediaextractor.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediaextractor.policy
+    $(LOCAL_PATH)/seccomp/mediacodec.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediacodec.policy
 
 # Wifi
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/wifi/dhcpcd.conf:system/etc/dhcpcd/dhcpcd.conf
-
-# Wifi (All Shield devices xurrently use broadcom wifi / bluetooth modules)
-    $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk)
-    $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4354/device-bcm.mk)
-
+    $(LOCAL_PATH)/wifi/dhcpcd.conf:$(TARGET_COPY_OUT_VENDOR)/etc/dhcpcd/dhcpcd.conf \
+   
+# Wifi
+# All Shield devices xurrently use broadcom wifi / bluetooth modules
+$(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk)
+$(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4354/device-bcm.mk)
 PRODUCT_PACKAGES += \
     android.hardware.wifi@1.0-service.legacy \
     hostapd \

@@ -67,6 +67,13 @@ on boot
     #change vm memory parameter
     write /proc/sys/vm/lowmem_reserve_ratio "128 128"
 
+service media /system/bin/mediaserver
+    class main
+    user media
+    group audio camera inet bluetooth drmrpc mediadrm wakelock
+    ioprio rt 4
+    writepid /dev/cpuset/foreground/tasks /dev/stune/foreground/tasks
+
 on post-fs
     write /sys/block/mmcblk0/queue/iostats 0
     write /sys/block/mmcblk0/queue/scheduler cfq
