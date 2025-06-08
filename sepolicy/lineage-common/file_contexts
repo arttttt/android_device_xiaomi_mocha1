@@ -17,9 +17,14 @@
 
 /sys/vibrator/pwmvalue           u:object_r:sysfs_vibrator:s0
 
-/(vendor|system/vendor)/bin/hw/android\.hardware\.light@2\.0-service\.mocha         u:object_r:hal_light_default_exec:s0
-/(vendor|system/vendor)/bin/hw/android\.hardware\.power@1\.0-service\.mocha         u:object_r:hal_power_default_exec:s0
+#/(vendor|system/vendor)/bin/hw/android\.hardware\.light@2\.0-service\.mocha         u:object_r:hal_light_default_exec:s0
+#/(vendor|system/vendor)/bin/hw/android\.hardware\.power@1\.0-service\.mocha         u:object_r:hal_power_default_exec:s0
 /(vendor|system/vendor)/bin/hw/android\.hardware\.vibrator@1\.0-service\.mocha      u:object_r:hal_vibrator_default_exec:s0
+
+/vendor/bin/hw/android.hardware.light@2.0-service.mocha    u:object_r:light_hwservice_exec:s0
+/vendor/bin/hw/android.hardware.memtrack@1.0-service-nvidia    u:object_r:memtrack_hwservice_exec:s0
+/vendor/bin/hw/android.hardware.power@1.0-service.mocha        u:object_r:power_hwservice_exec:s0
+
 # Lineage Trust HAL
 /(vendor|system/vendor)/bin/hw/vendor\.lineage\.trust@1\.0-service                    u:object_r:hal_trust_default_exec:s0
 
