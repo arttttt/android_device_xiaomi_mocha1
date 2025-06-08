@@ -1,0 +1,13 @@
+diff --git a/opengl/java/android/opengl/GLSurfaceView.java b/opengl/java/android/opengl/GLSurfaceView.java
+index 8a3e6a0b0fd..93cdbcfc935 100644
+--- a/opengl/java/android/opengl/GLSurfaceView.java
++++ b/opengl/java/android/opengl/GLSurfaceView.java
+@@ -970,7 +970,7 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
+                     int a = findConfigAttrib(egl, display, config,
+                             EGL10.EGL_ALPHA_SIZE, 0);
+                     if ((r == mRedSize) && (g == mGreenSize)
+-                            && (b == mBlueSize) && (a == mAlphaSize)) {
++                            && (b == mBlueSize) && (a >= mAlphaSize)) {
+                         return config;
+                     }
+                 }

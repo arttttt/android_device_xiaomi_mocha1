@@ -39,7 +39,8 @@
   </array>
       <!-- Different CPU speeds as reported in
        /sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state -->
-  <array name="cpu.speeds">
+ <item name="cpu.clusters.cores">4</item>
+ <array name="cpu.core_speeds.cluster0">
       <value>51000</value>
       <value>102000</value>
       <value>204000</value>
@@ -63,10 +64,10 @@
       <value>2218500</value>
   </array>
   <!-- Power consumption when CPU is idle -->
-  <item name="cpu.idle">8.2</item>
+  <item name="cpu.suspend">8.2</item>
   <item name="cpu.awake">19.1</item>
   <!-- Power consumption at different speeds -->
-  <array name="cpu.active">
+  <array name="cpu.core_power.cluster0">
       <value>2.18</value>
       <value>6.64</value>
       <value>26.97</value>

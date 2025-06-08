@@ -1,0 +1,24 @@
+diff --git a/libs/ui/Android.bp b/libs/ui/Android.bp
+index 7d7d78bef..f351f281d 100644
+--- a/libs/ui/Android.bp
++++ b/libs/ui/Android.bp
+@@ -27,6 +27,7 @@ cc_library_shared {
+     ],
+     cppflags: [
+         "-Weverything",
++        "-Werror",
+ 
+         // The static constructors and destructors in this library have not been noted to
+         // introduce significant overheads
+diff --git a/libs/ui/GraphicBuffer.cpp b/libs/ui/GraphicBuffer.cpp
+index 3fc6a2d34..2c3201712 100644
+--- a/libs/ui/GraphicBuffer.cpp
++++ b/libs/ui/GraphicBuffer.cpp
+@@ -639,3 +639,4 @@ bool GraphicBuffer::isBufferHubBuffer() const {
+ // ---------------------------------------------------------------------------
+ 
+ }; // namespace android
++
++__strong_alias(_ZN7android13GraphicBufferC1EjjijjP13native_handleb,_ZN7android13GraphicBufferC1EjjijjjP13native_handleb);
+
+2.25.1

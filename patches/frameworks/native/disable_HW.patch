@@ -1,0 +1,35 @@
+diff --git a/libs/ui/Android.bp b/libs/ui/Android.bp
+index 7d7d78bef..f351f281d 100644
+--- a/libs/ui/Android.bp
++++ b/libs/ui/Android.bp
+@@ -27,6 +27,7 @@ cc_library_shared {
+     ],
+     cppflags: [
+         "-Weverything",
++        "-Werror",
+ 
+         // The static constructors and destructors in this library have not been noted to
+         // introduce significant overheads
+diff --git a/libs/ui/GraphicBuffer.cpp b/libs/ui/GraphicBuffer.cpp
+index 3fc6a2d34..a623267f3 100644
+--- a/libs/ui/GraphicBuffer.cpp
++++ b/libs/ui/GraphicBuffer.cpp
+@@ -639,3 +639,4 @@ bool GraphicBuffer::isBufferHubBuffer() const {
+ // ---------------------------------------------------------------------------
+ 
+ }; // namespace android
++
+diff --git a/services/surfaceflinger/SurfaceFlinger.cpp b/services/surfaceflinger/SurfaceFlinger.cpp
+index db26808cc..670d42a56 100644
+--- a/services/surfaceflinger/SurfaceFlinger.cpp
++++ b/services/surfaceflinger/SurfaceFlinger.cpp
+@@ -352,6 +352,9 @@ SurfaceFlinger::SurfaceFlinger(Factory& factory) : SurfaceFlinger(factory, SkipI
+     property_get("debug.sf.showupdates", value, "0");
+     mDebugRegion = atoi(value);
+ 
++    property_get("debug.sf.disable_hwc", value, "0");
++    mDebugDisableHWC = atoi(value);
++
+     ALOGI_IF(mDebugRegion, "showupdates enabled");
+ 
+     // DDMS debugging deprecated (b/120782499)
