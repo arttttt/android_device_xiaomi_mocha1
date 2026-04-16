@@ -75,7 +75,8 @@ PRODUCT_PACKAGES += \
     
 # Graphics shim
 PRODUCT_PACKAGES += libs \
-                    libshim_zw
+                    libshim_zw \
+                    libw
                     
 # HIDL HALs
 $(call inherit-product, device/xiaomi/mocha/hidl.mk)
