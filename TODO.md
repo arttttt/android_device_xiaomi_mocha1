@@ -23,48 +23,30 @@ is reachable:
   `default_volume_tables.xml` (pulled via `PRODUCT_COPY_FILES` from
   `frameworks/av/services/audiopolicy/config/`) give acceptable levels.
 
-## Sepolicy: Treble split
+## Sepolicy: on-device verification
 
-Current layout (three flat BOARD_SEPOLICY_DIRS umbrellas):
-```
-sepolicy/
-├── common/          # 76 .te (NVIDIA + Lineage-generic)
-├── lineage-common/  # 11 .te (Lineage system-domain tweaks)
-└── mocha/           # 2 .te (conn_wifi, mac_generator)
-```
+Treble private/public/vendor split is done. The three-way classification:
 
-Target layout (Treble private/public/vendor):
-```
-sepolicy/
-├── private/   # augmentations to AOSP system domains (system_server, zygote,
-│              # surfaceflinger, mediaserver, cameraserver, platform_app, etc.)
-├── public/    # type declarations visible to both system and vendor (rare)
-└── vendor/    # new vendor-side domains (ussrd, bt_loader, hal_*, gpsd, etc.)
-              # + file_contexts, genfs_contexts, property_contexts
-```
+- `public/` — type declarations visible from both sides: `device.te` (dev
+  types), `file.te` (file/sysfs types), `property.te` (prop types),
+  `service.te` (service types), `te_macros`.
+- `private/` — augmentations to AOSP platform/system domains
+  (system_server, zygote, surfaceflinger, cameraserver, mediaserver,
+  init, kernel, platform_app, priv_app, etc.).
+- `vendor/` — new NVIDIA/mocha domains (ussrd, bt_loader, gpsd, rpx,
+  charon, ctload, …), HAL-side augments (wifi_hal_default), mocha bits
+  (conn_wifi, mac_generator), plus `file_contexts`, `genfs_contexts`,
+  `property_contexts`, `service_contexts`, `seapp_contexts`,
+  `mac_permissions.xml`, `keys.conf`, `certs/`.
 
-BoardConfig.mk target state:
-```
-BOARD_PLAT_PRIVATE_SEPOLICY_DIR := device/xiaomi/mocha/sepolicy/private
-BOARD_PLAT_PUBLIC_SEPOLICY_DIR  := device/xiaomi/mocha/sepolicy/public
-BOARD_VENDOR_SEPOLICY_DIRS      += device/xiaomi/mocha/sepolicy/vendor
-```
+Likely surprises on first build/boot:
 
-Bulk of the work is per-file classification (89 .te files + context/macros
-files). Approach:
-1. Scan each .te file's domain targets. Rules on AOSP-defined types
-   (`type system_server`, `type zygote`, etc.) go to `private/`.
-2. New domain definitions (e.g., `type ussrd`) go to `vendor/`.
-3. Merge same-named files from `common/` + `lineage-common/` to avoid
-   duplicate module names.
-4. Migrate contexts files (`file_contexts`, `genfs_contexts`,
-   `property_contexts`, `service_contexts`) into `vendor/`.
-5. `te_macros`, `mac_permissions.xml`, `keys.conf` → `vendor/` (or
-   `public/` if actually shared).
-
-This is the bulk of work. Best done as a dedicated PR where each commit
-can be reviewed against a reference device (e.g., marlin) for naming and
-structure.
+- Type-visibility errors: if a `private/` rule references a type that
+  ended up in `vendor/`, the build fails with `type foo_t not defined`.
+  Fix is usually to promote the type declaration to `public/`.
+- `neverallow` violations from AOSP's strictened 8.1 CTS — the previous
+  flat BOARD_SEPOLICY_DIRS was lenient; the split enforces more.
+- `dumpsys` / `settings` may report extra denials (`logcat | grep avc`).
 
 ## Init.rc: dead code in init.tegra.rc
 

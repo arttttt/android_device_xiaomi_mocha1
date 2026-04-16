@@ -115,9 +115,9 @@ BOARD_NO_SECURE_DISCARD := true
 OVERRIDE_RS_DRIVER := libnvRSDriver.so
 
 # SELinux
-BOARD_SEPOLICY_DIRS += device/xiaomi/mocha/sepolicy/common \
-                       device/xiaomi/mocha/sepolicy/lineage-common \
-                       device/xiaomi/mocha/sepolicy/mocha
+BOARD_PLAT_PRIVATE_SEPOLICY_DIR += device/xiaomi/mocha/sepolicy/private
+BOARD_PLAT_PUBLIC_SEPOLICY_DIR  += device/xiaomi/mocha/sepolicy/public
+BOARD_SEPOLICY_DIRS             += device/xiaomi/mocha/sepolicy/vendor
                        
 # ThermalHAL
 TARGET_THERMALHAL_VARIANT := tegra
