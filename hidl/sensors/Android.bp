@@ -3,8 +3,9 @@ cc_library_static {
     vendor: true,
     srcs: [
         "multihal.cpp",
-        "SensorEventQueue.cpp"
+        "SensorEventQueue.cpp",
     ],
+    cflags: ["-DLOG_TAG=\"MultiHal\""],
     header_libs: [
         "libhardware_headers",
     ],
@@ -12,7 +13,23 @@ cc_library_static {
         "liblog",
         "libcutils",
         "libutils",
-        "libdl"
+        "libdl",
     ],
     export_include_dirs: ["."],
+}
+
+cc_library_shared {
+    name: "sensors.tegra",
+    vendor: true,
+    relative_install_path: "hw",
+    whole_static_libs: ["multihal-mocha"],
+    shared_libs: [
+        "liblog",
+        "libcutils",
+        "libutils",
+        "libdl",
+    ],
+    strip: {
+        none: true,
+    },
 }
