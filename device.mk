@@ -132,7 +132,6 @@ PRODUCT_COPY_FILES += \
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.tn8 \
-    init.cal.rc \
     init.comms.rc \
     init.hdcp.rc \
     init.t124.rc \

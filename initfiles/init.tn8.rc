@@ -9,7 +9,6 @@
 import init.tegra.rc
 import init.tn8_common.rc
 import init.t124.rc
-import init.cal.rc
 import init.tn8.usb.rc
 
 on post-fs-data
