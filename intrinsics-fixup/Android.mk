@@ -1,0 +1,10 @@
+LOCAL_PATH := $(call my-dir)
+
+INTRINSICS_FIXUP_SCRIPT := $(LOCAL_PATH)/fixup-intrinsics.py
+
+.PHONY: intrinsics-fixup
+intrinsics-fixup:
+	@python3 $(INTRINSICS_FIXUP_SCRIPT) $(TARGET_OUT_VENDOR) $(TARGET_OUT)
+
+$(INSTALLED_VENDORIMAGE_TARGET): intrinsics-fixup
+$(INSTALLED_SYSTEMIMAGE): intrinsics-fixup
