@@ -24,8 +24,6 @@ $(call inherit-product-if-exists, vendor/nvidia/shield/mocha.mk)
 # Audio
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/media/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_effects.xml \
-    $(LOCAL_PATH)/media/nvaudio_conf.xml:system/etc/nvaudio_conf.xml  \
-    $(LOCAL_PATH)/media/nvaudio_fx.xml:system/etc/nvaudio_fx.xml  \
     $(LOCAL_PATH)/media/audio_policy.conf:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy.conf
     
 PRODUCT_PACKAGES += \
@@ -59,10 +57,7 @@ PRODUCT_COPY_FILES += \
     
 # Comm Permissions
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
-    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
-    frameworks/native/data/etc/android.software.sip.xml:system/etc/permissions/android.software.sip.xml \
-    frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml
+    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml
     
 # Custom tiles
 PRODUCT_PACKAGES += \
