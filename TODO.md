@@ -8,30 +8,20 @@
     - Vendor `LineageOS/android_hardware_nvidia_thermal` (branch `lineage-15.1`) into `hardware/nvidia/thermal/`, drop entry from `lineage.dependencies`, swap `@1.0-impl` for `@1.0-service`, add XML via `PRODUCT_COPY_FILES`, flip manifest.
     - Fallback if stock XML missing: synthesise from `Smoke-kernel-mocha` DT thermal-zones.
 
-## Audio policy: migrate to XSD format
+## Audio policy: on-device verification
 
-Legacy `media/audio_policy.conf` (pre-8.0 text format, 104 lines) still
-drives the stack. Android 8.1 supports the XSD-validated XML format and it's
-the forward-compatible path. Current blockers are **risk without device
-testing**, not fundamental unknowns.
+Migration to XSD XML is done (`media/audio_policy_configuration.xml`,
+`USE_XML_AUDIO_POLICY_CONF := 1`). Needs device-side checks once mocha
+is reachable:
 
-Plan:
-- Enable `USE_XML_AUDIO_POLICY_CONF := 1` in `BoardConfig.mk`.
-- Author `hidl/audio/audio_policy_configuration.xml` with inline module
-  definitions (self-contained, no xi:include — avoids cross-partition path
-  resolution surprises). Modules to cover, from the current `.conf`:
-  - `primary` — five outputs (primary 48k stereo, multichannel PCM 7.1,
-    passthrough AC3/E_AC3/DTS→HDMI, ulp_output MP3/AAC offload, dual_audio
-    direct) + one PCM input.
-  - `a2dp` — 44.1k stereo out.
-  - `usb` — 44.1k stereo out + PCM in for dock accessories.
-  - `r_submix` — AOSP stock submix module.
-- Add `PRODUCT_COPY_FILES` for the main XML → `$(TARGET_COPY_OUT_VENDOR)/etc/`.
-- Delete `media/audio_policy.conf` and its `PRODUCT_COPY_FILES` entry.
-- Post-migration: verify Bluetooth audio, HDMI passthrough (if WFD in use),
-  headphone/speaker routing through tinyhal paths in `media/audio.mocha.xml`.
-
-Schema: `frameworks/av/services/audiopolicy/config/audio_policy_configuration.xsd`.
+- All four modules (primary / a2dp / usb / r_submix) register with
+  audiopolicyservice — check `dumpsys media.audio_policy` after boot.
+- Routing through tinyhal paths in `media/audio.mocha.xml` still works
+  for speaker, headphone, headset, internal mic.
+- Bluetooth A2DP output streams.
+- Volume curves from the AOSP-stock `audio_policy_volumes.xml` and
+  `default_volume_tables.xml` (pulled via `PRODUCT_COPY_FILES` from
+  `frameworks/av/services/audiopolicy/config/`) give acceptable levels.
 
 ## Sepolicy: Treble split
 
