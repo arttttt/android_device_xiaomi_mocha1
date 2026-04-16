@@ -68,4 +68,4 @@ PRODUCT_PACKAGES += \
 
 # HIDL
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/manifest.xml:system/vendor/manifest.xml
+    $(call my-dir)/manifest.xml:system/vendor/manifest.xml

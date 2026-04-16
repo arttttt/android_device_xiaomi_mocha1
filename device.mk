@@ -79,7 +79,7 @@ PRODUCT_PACKAGES += libs \
                     libw
                     
 # HIDL HALs
-$(call inherit-product, device/xiaomi/mocha/hidl.mk)
+$(call inherit-product, device/xiaomi/mocha/hidl/hidl.mk)
 
 # keylayout
 PRODUCT_COPY_FILES += \
