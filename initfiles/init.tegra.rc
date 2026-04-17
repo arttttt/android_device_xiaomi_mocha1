@@ -26,15 +26,6 @@ on init
     symlink /mnt/media_rw/usbdrive /storage/usbdrive
     symlink /mnt/media_rw/usbdrive /usbdrive
 
-    # create directory for mounting calibration partition
-    mkdir /mnt/factory 0666 system system
-    
-    mkdir /factory 0666 system system
-    mkdir /factory/wifi_config 0666 system system
-
-    # create directory for mounting user calibration partition
-    mkdir /mnt/usercalib 0771 system system
-
     start watchdogd
 
 on fs
@@ -42,16 +33,6 @@ on fs
    mount pstore pstore /sys/fs/pstore
 
 on post-fs-data
-    # We chown/chmod /mnt/usercalib again so because mount is run as root + defaults
-    chown system system /usercalib
-    chmod 0771 /usercalib
-
-    # create the lost+found directories, so as to enforce our permissions
-    mkdir /usercalib/lost+found 0770 root root
-
-    # Set SELinux security contexts on upgrade or policy update.
-    restorecon_recursive /usercalib
-
     mkdir /data/misc/dhcp 0770 dhcp dhcp
     mkdir /data/misc/hwc 0771 system graphics
     mkdir /data/nvcam 0700 media camera
@@ -128,16 +109,6 @@ on boot
     chown system system /sys/class/invensense/mpu/power_state
     chown system system /sys/class/invensense/mpu/key
 
-    chown system system /sys/class/invensense/mpu/akm89xx/akm89xx/enable
-    chown system system /sys/class/invensense/mpu/akm89xx/akm89xx/delay
-    chown system system /sys/class/invensense/mpu/akm89xx/akm89xx/max_range
-    chown system system /sys/class/invensense/mpu/akm89xx/akm89xx/resolution
-    
-    chown system system /sys/class/invensense/mpu/bmpX80/bmpX80/enable
-    chown system system /sys/class/invensense/mpu/bmpX80/bmpX80/delay
-    chown system system /sys/class/invensense/mpu/bmpX80/bmpX80/max_range
-    chown system system /sys/class/invensense/mpu/bmpX80/bmpX80/resolution
-
     chown system system /sys/class/sensors/light/device/amb_clear
 
 # Touch
@@ -146,13 +117,6 @@ on boot
 # nvdps
     chown system system /sys/devices/platform/host1x/tegradc.0/nvdps
     chown system system /sys/class/graphics/fb0/device/nvdps
-
-#ozwpan driver: WiFi direct USB shim driver
-    chown system system /dev/ozwpan
-    chown system system /sys/class/ozmo_wpan/ozwpan/devices
-    chown system system /sys/class/ozmo_wpan/ozwpan/select
-    chown system system /sys/class/ozmo_wpan/ozwpan/bind
-    chmod 0660 /sys/class/ozmo_wpan/ozwpan/bind
 
 # LP5521
     chown system system /sys/bus/i2c/drivers/lp5521/0-0032/select_engine
