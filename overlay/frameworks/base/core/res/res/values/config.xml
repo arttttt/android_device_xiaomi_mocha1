@@ -82,7 +82,7 @@
     <!-- Indicate whether closing the lid causes the device to go to sleep and opening
          it causes the device to wake up.
          The default is false. -->
-    <bool name="config_lidControlsSleep">true</bool>
+    <bool name="config_lidControlsSleep">false</bool>
 
     <!-- Array of light sensor LUX values to define our levels for auto backlight brightness support.
          The N entries of this array define N  1 zones as follows:
@@ -136,12 +136,20 @@
          than the size of the config_autoBrightnessLevels array.
          This must be overridden in platform specific overlays -->
     <integer-array name="config_autoBrightnessButtonBacklightValues">
-        <item>10</item>
-        <item>20</item>
-        <item>30</item>
-        <item>40</item>
-        <item>50</item>
-        <item>60</item>
+        <item>60</item>   <!--    0 -    3 LUX -->
+        <item>60</item>   <!--    3 -    6 -->
+        <item>60</item>   <!--    6 -   12 -->
+        <item>50</item>   <!--   12 -   19 -->
+        <item>40</item>   <!--   19 -   25 -->
+        <item>30</item>   <!--   25 -   50 -->
+        <item>20</item>   <!--   50 -  100 -->
+        <item>10</item>   <!--  100 -  150 -->
+        <item>0</item>    <!--  150 -  320 -->
+        <item>0</item>    <!--  320 -  480 -->
+        <item>0</item>    <!--  480 -  960 -->
+        <item>0</item>    <!--  960 - 1240 -->
+        <item>0</item>    <!-- 1240 - 1520 -->
+        <item>0</item>    <!-- 1520+ -->
     </integer-array>
 
     <!-- Array of output values for keyboard backlight corresponding to the LUX values
