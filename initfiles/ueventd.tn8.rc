@@ -21,6 +21,7 @@
 /dev/torch*     0660    media   camera
 /dev/video0     0660    media   camera
 /dev/video1     0660    media   camera
+/dev/v4l-subdev* 0660   media   camera
 /dev/mipi-cal   0660    media   camera
 /dev/spdif*     0660    system  audio
 /dev/adf*       0660    system  system
